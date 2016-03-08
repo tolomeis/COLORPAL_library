@@ -7,7 +7,6 @@
 
 Colorpal::Colorpal(int spin):sioBaud(4800),waitDelay(200), serin(spin,255), serout(255,spin){
   _spin = spin;
-  errore = 1;
 }
 
 void Colorpal::init(){
