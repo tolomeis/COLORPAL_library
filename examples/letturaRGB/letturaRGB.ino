@@ -9,7 +9,7 @@ int blu;
 int verde;
 
 //******* CREO LA COLORPAL CON IL PIN sig COLLEGATO AL PIN 2 ****
-Colorpal colorp(2);
+Colorpal colorp(10);
 
 void setup() {
   //************
@@ -24,6 +24,7 @@ void loop() {
    *  su cui memorizzare le componeni, gli argomento sono nell'ordine: rosso, verde, blu
    *  alla fine della funzione questi 3 interi conterranno i rispettivi valori, dei colori.
    */
+  
   colorp.readRGB(rosso, verde, blu);
   //stampo le 3 componenti
   Serial.print("R:");
@@ -31,6 +32,16 @@ void loop() {
   Serial.print("  B:");
   Serial.print(blu);
   Serial.print("  G:");
-  Serial.println(verde);
-  delay(100);
+  Serial.print(verde);
+  int cmax = max(rosso,verde);
+  cmax = max(cmax,blu);
+  if(cmax != 0){
+    if(cmax == verde) Serial.print(" ->  VERDE");
+    if(cmax == rosso) Serial.print(" ->  ROSSO");
+    if(cmax == blu) Serial.print(" ->  BLU");
+       
+  }
+  Serial.println(" ");
+  
+  delay(250);
 }
