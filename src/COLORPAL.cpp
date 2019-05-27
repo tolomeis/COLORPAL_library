@@ -26,28 +26,46 @@ void Colorpal::init(){
   pinMode(_spin, OUTPUT);
   serout.print("= (00 $ m) !"); // imposta al colorpal la trasmissione sequenziale (da datasheet)
   serout.end();              // Disattiva trasmissione
-  serin.begin(sioBaud);      // Inizializza ricezione
+  //serin.begin(sioBaud);      // Inizializza ricezione
   pinMode(_spin, INPUT);
 }
 
 
 void Colorpal::readRGB(int &red, int &green, int &blue){
-  char buffer[32];
-  while(1){
-    if (serin.available() > 0) { //se dati disponibili allora 
-      // attendo carattere $, leggo 3 dati esadecimali (da datasheet)
-      buffer[0] = serin.read();
-      if (buffer[0] == '$') {
-        for(int i = 0; i < 9; i++) {
-          while (serin.available() == 0);     // attendo i prossimi dati e memorizzo nel buffer
-          buffer[i] = serin.read();
-          if (buffer[i] == '$')               //se trovo $ è errore e riparto.
-            continue;
+    serin.begin(sioBaud);      // Inizializza ricezione
+    char buffer[32];
+    while(serin.available() == 0);
+    // attendo carattere $, leggo 3 dati esadecimali (da datasheet)
+    buffer[0] = serin.read();
+    if (buffer[0] == '$') {
+        int i;
+        for(i = 0; i < 9; i++) {
+            while (serin.available() == 0);     // attendo i prossimi dati e memorizzo nel buffer
+            buffer[i] = serin.read();
+            if (buffer[i] == '$') i=0;               //se trovo $ è errore e riparto.
         }
-        sscanf (buffer, "%3x%3x%3x", &red, &green, &blue);  //estraggo le componenti in 3 interi, ritorno.
-        break;                              
-      }
+    sscanf (buffer, "%3x%3x%3x", &red, &green, &blue);  //estraggo le componenti in 3 interi, ritorno.
+                              
     }
-  }
+    serin.end();
+}
+    
+    
 
+int Colorpal::readR(){
+    int red,green,blue;
+    this->readRGB(red,green,blue);
+    return red;
+}
+
+int Colorpal::readG(){
+    int red,green,blue;
+    this->readRGB(red,green,blue);
+    return green;
+}
+
+int Colorpal::readB(){
+    int red,green,blue;
+    this->readRGB(red,green,blue);
+    return blue;
 }
