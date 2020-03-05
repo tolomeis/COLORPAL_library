@@ -1,4 +1,30 @@
 # COLORPAL_library
+### English:
+UNOFFICIAL Arduino Library for the PARALLAX COLORPAL color sensor.
+
+Currently supports only color sensing, while the colorpal module also integrate an RGB LED.
+
+Initialization:
+``` 
+Colorpal colorp(pin);
+
+colorp.init();
+```
+Reading a color (via RGB Values):
+``` 
+\\Using a single function for all the components:
+leggiRGB(int& red, int& green, int& blue);
+
+\\Using a funcion for every components
+int red = readR();
+int green = readG();
+int blue = readB();
+```
+
+
+----
+### Italian:
+
 Libreria NON UFFICIALE per il sensore di colore COLORPAL, costruito dalla PARALLAX
 
 Attualmente è possibile solo la lettura del colore, che si può effettuare in due modi:
